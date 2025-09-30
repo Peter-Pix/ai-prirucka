@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Příručka - Váš průvodce umělou inteligencí</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2A9D8F;
+            --secondary: #E76F51;
+            --accent1: #F4A261;
+            --accent2: #E9C46A;
+            --light: #F8F9FA;
+            --dark: #264653;
+            --text: #333333;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #f5f7fa, #c3cfe2, #e2e8f0, #f8f9fa);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(42, 157, 143, 0.1);
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(0) translateX(20px); }
+            75% { transform: translateY(20px) translateX(10px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            box-shadow: 0 5px 15px var(--shadow);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: var(--dark);
+        }
+
+        /* Main Categories */
+        .categories {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow);
+        }
+
+        .category-icon {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .category-1 .category-icon { background-color: var(--primary); }
+        .category-2 .category-icon { background-color: var(--secondary); }
+        .category-3 .category-icon { background-color: var(--accent1); }
+        .category-4 .category-icon { background-color: var(--accent2); }
+        .category-5 .category-icon { background-color: #9B5DE5; }
+        .category-6 .category-icon { background-color: #00BBF9; }
+
+        .category-content {
+            padding: 1.5rem;
+        }
+
+        .category-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .category-content p {
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Subcategories */
+        .subcategories {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--light);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #e9ecef;
+        }
+
+        .subcategories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .subcategory-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .subcategory-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow);
+        }
+
+        .subcategory-icon {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            background-color: var(--primary);
+        }
+
+        .subcategory-content {
+            padding: 1.5rem;
+        }
+
+        .subcategory-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .subcategory-content p {
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Examples */
+        .examples {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .example-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow);
+        }
+
+        .example-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .example-header h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .example-content {
+            padding: 1.5rem;
+        }
+
+        .example-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .example-section h4 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .example-section p {
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .prompt-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--dark);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+        }
+
+        .footer-section h3:after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #adb5bd;
+            margin-bottom: 0.8rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 5px 10px var(--shadow);
+                padding: 1rem 0;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            nav a {
+                display: block;
+                padding: 1rem 2rem;
+                border-radius: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .categories-grid,
+            .subcategories-grid,
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="logo-text">AI <span>Příručka</span></div>
+            </div>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#" class="active">Domov</a></li>
+                    <li><a href="#">Práce</a></li>
+                    <li><a href="#">Škola</a></li>
+                    <li><a href="#">Dovolená</a></li>
+                    <li><a href="#">Sport</a></li>
+                    <li><a href="#">Nakupování</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>AI Příručka - Váš průvodce umělou inteligencí</h1>
+        <p>Objevte sílu umělé inteligence v každodenním životě. Získejte připravené prompty pro různé situace a ušetřete čas s AI nástroji.</p>
+        <div class="search-bar">
+            <input type="text" placeholder="Hledejte prompty nebo témata...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+    </section>
+
+    <!-- Main Categories -->
+    <section class="categories" id="categories">
+        <h2 class="section-title">Hlavní Kategorie</h2>
+        <div class="categories-grid">
+            <!-- Category 1: Domov -->
+            <div class="category-card category-1" data-category="domov">
+                <div class="category-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="category-content">
+                    <h3>Domov</h3>
+                    <p>Prompty pro domácnost, opravy, úklid, vaření a další činnosti v domácnosti.</p>
+                </div>
+            </div>
+
+            <!-- Category 2: Práce -->
+            <div class="category-card category-2" data-category="prace">
+                <div class="category-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="category-content">
+                    <h3>Práce</h3>
+                    <p>E-maily, prezentace, projekty, komunikace a další pracovní úkoly.</p>
+                </div>
+            </div>
+
+            <!-- Category 3: Škola -->
+            <div class="category-card category-3" data-category="skola">
+                <div class="category-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="category-content">
+                    <h3>Škola</h3>
+                    <p>Domácí úkoly, projekty, učení, prezentace a další školní potřeby.</p>
+                </div>
+            </div>
+
+            <!-- Category 4: Dovolená -->
+            <div class="category-card category-4" data-category="dovolena">
+                <div class="category-icon">
+                    <i class="fas fa-umbrella-beach"></i>
+                </div>
+                <div class="category-content">
+                    <h3>Dovolená</h3>
+                    <p>Cestování, ubytování, itineráře, jídlo a další aspekty dovolené.</p>
+                </div>
+            </div>
+
+            <!-- Category 5: Sport -->
+            <div class="category-card category-5" data-category="sport">
+                <div class="category-icon">
+                    <i class="fas fa-running"></i>
+                </div>
+                <div class="category-content">
+                    <h3>Sport</h3>
+                    <p>Tréninkové plány, cvičení, výživa, regenerace a další sportovní aktivity.</p>
+                </div>
+            </div>
+
+            <!-- Category 6: Nakupování -->
+            <div class="category-card category-6" data-category="nakupovani">
+                <div class="category-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="category-content">
+                    <h3>Nakupování</h3>
+                    <p>Recenze, srovnání, rozpočty, reklamace a další nákupní tipy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subcategories -->
+    <section class="subcategories" id="subcategories">
+        <button class="back-button" id="back-to-categories">
+            <i class="fas fa-arrow-left"></i> Zpět na kategorie
+        </button>
+        <h2 class="section-title" id="subcategories-title">Podkategorie</h2>
+        <div class="subcategories-grid" id="subcategories-grid">
+            <!-- Subcategories will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Examples -->
+    <section class="examples" id="examples">
+        <button class="back-button" id="back-to-subcategories">
+            <i class="fas fa-arrow-left"></i> Zpět na podkategorie
+        </button>
+        <h2 class="section-title" id="examples-title">Příklady Promptů</h2>
+        <div class="examples-grid" id="examples-grid">
+            <!-- Examples will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O AI Příručce</h3>
+                <p>AI Příručka je váš průvodce světem umělé inteligence. Poskytujeme připravené prompty pro různé životní situace, které vám pomohou využít potenciál AI nástrojů.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Rychlé odkazy</h3>
+                <a href="#">Domov</a>
+                <a href="#">Práce</a>
+                <a href="#">Škola</a>
+                <a href="#">Dovolená</a>
+                <a href="#">Sport</a>
+                <a href="#">Nakupování</a>
+            </div>
+            <div class="footer-section">
+                <h3>Užitečné zdroje</h3>
+                <a href="#">Jak používat prompty</a>
+                <a href="#">Nejlepší AI nástroje</a>
+                <a href="#">Tipy pro efektivní AI komunikaci</a>
+                <a href="#">Časté otázky</a>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <p><i class="fas fa-envelope"></i> info@aiprirucka.cz</p>
+                <p><i class="fas fa-phone"></i> +420 123 456 789</p>
+                <p><i class="fas fa-map-marker-alt"></i> Praha, Česká republika</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 AI Příručka. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Prompt byl zkopírován do schránky!
+    </div>
+
+    <script>
+        // Data structure for categories, subcategories and examples
+        const data = {
+            domov: {
+                name: "Domov",
+                subcategories: {
+                    "opravy-pc-spotrebicu": {
+                        name: "Opravy PC a spotřebičů",
+                        examples: [
+                            {
+                                title: "Návod na zprovoznění Wi-Fi",
+                                situation: "Právě jsem se přestěhoval a potřebuji zprovoznit Wi-Fi v novém bytě. Nevím, jak na to.",
+                                prompt_cz: "Vytvoř podrobný návod krok za krokem, jak zprovoznit Wi-Fi router v domácnosti. Zahrň kontrolu připojení k internetu, nastavení routeru, vytvoření názvu sítě a hesla, připojení zařízení a řešení běžných problémů.",
+                                prompt_en: "Create a detailed step-by-step guide on how to set up a Wi-Fi router in a household. Include checking the internet connection, router configuration, creating network name and password, connecting devices, and troubleshooting common issues.",
+                                usage: "Zkopírujte anglický prompt a vložte jej do AI nástroje jako ChatGPT. AI vám vygeneruje podrobný návod, který můžete použít k nastavení Wi-Fi."
+                            },
+                            {
+                                title: "Jak vyčistit pračku",
+                                situation: "Moje pračka začíná zapáchat a chci ji vyčistit, ale nevím jak.",
+                                prompt_cz: "Napiš podrobný návod na vyčištění pračky, včetně čištění bubnu, filtru, zásobníku na prací prostředek a těsnění. Uveď doporučené čisticí prostředky a frekvenci čištění.",
+                                prompt_en: "Write a detailed guide on how to clean a washing machine, including cleaning the drum, filter, detergent drawer, and rubber seal. Recommend cleaning products and cleaning frequency.",
+                                usage: "Zkopírujte anglický prompt a vložte jej do AI nástroje. AI vám poskytne podrobný návod na vyčištění pračky."
+                            }
+                        ]
+                    },
+                    "uklid-a-organizace": {
+                        name: "Úklid a organizace",
+                        examples: [
+                            {
+                                title: "Plán úklidu",
+                                situation: "Potřebuji vytvořit systém úklidu pro celý týden, abych měl doma vždy čisto.",
+                                prompt_cz: "Vytvoř týdenní plán úklidu pro 3člennou rodinu bydlící v bytě 3+1. Rozděl úkoly na denní, týdenní a měsíční. Zahrň úklid kuchyně, koupelny, obývacího pokoje a ložnic.",
+                                prompt_en: "Create a weekly cleaning schedule for a 3-person family living in a 3+1 apartment. Divide tasks into daily, weekly, and monthly. Include cleaning the kitchen, bathroom, living room, and bedrooms.",
+                                usage: "Zkopírujte anglický prompt a vložte jej do AI nástroje. AI vám vygeneruje přehledný plán úklidu."
+                            }
+                        ]
+                    }
+                }
+            },
+            prace: {
+                name: "Práce",
+                subcategories: {
+                    "emaily-a-komunikace": {
+                        name: "E-maily a komunikace",
+                        examples: [
+                            {
+                                title: "Profesionální e-mail - omluva",
+                                situation: "Potřebuji se omluvit kolegovi za zmeškanou schůzku a navrhnout nový termín.",
+                                prompt_cz: "Napiš profesionální e-mail, ve kterém se omlouvám za zmeškanou schůzku. E-mail by měl obsahovat omluvu, vysvětlení (bez přílišných detailů) a návrh nového termínu. Tón by měl být upřímný, ale profesionální.",
+                                prompt_en: "Write a professional email apologizing for a missed meeting. The email should include an apology, explanation (without too many details), and a suggestion for a new meeting time. The tone should be sincere but professional.",
+                                usage: "Zkopírujte anglický prompt a vložte jej do AI nástroje. AI vám vygeneruje vhodný e-mail, který můžete upravit a odeslat."
+                            }
+                        ]
+                    }
+                }
+            },
+            skola: {
+                name: "Škola",
+                subcategories: {
+                    "domaci-ukoly": {
+                        name: "Domácí úkoly a projekty",
+                        examples: [
+                            {
+                                title: "Vysvětlení matematického konceptu",
+                                situation: "Nerozumím Pythagorově větě a potřebuji jednoduché vysvětlení s příklady.",
+                                prompt_cz: "Vysvětli Pythagorovu větu jednoduchým způsobem pro studenta střední školy. Uveď vzorec, vysvětli, co jednotlivé proměnné znamenají, a uveď 2-3 praktické příklady použití věty v reálném životě.",
+                                prompt_en: "Explain the Pythagorean theorem in a simple way for a high school student. Provide the formula, explain what the variables mean, and give 2-3 practical examples of using the theorem in real life.",
+                                usage: "Zkopírujte anglický prompt a vložte jej do AI nástroje. AI vám poskytne srozumitelné vysvětlení Pythagorovy věty."
+                            }
+                        ]
+                    }
+                }
+            },
+            dovolena: {
+                name: "Dovolená",
+                subcategories: {
+                    "jidlo-a-ubytovani": {
+                        name: "Jídlo a ubytování",
+                        examples: [
+                            {
+                                title: "Levná pizza v Oslu",
+                                situation: "Jsem v Oslu (Norsko) a chci si dát dobrou, ale co nejlevnější pizzu. Nevím, kde hledat.",
+                                prompt_cz: "Najdi mi seznam 5 nejlevnějších, ale dobře hodnocených pizzerií v centru Osla s průměrnou cenou do 150 NOK za margheritu. Vypiš adresu a hodnocení. Zahrň i jednu s nabídkou 'pizza all you can eat' pro porovnání.",
+                                prompt_en: "List 5 cheapest, but well-rated pizzerias in central Oslo with an average Margherita price under 150 NOK. Include the address and rating. Also include one with an 'all you can eat pizza' offer for comparison.",
+                                usage: "Zkopírujte anglický prompt a vložte jej do vyhledávacího okna AI nástroje (např. ChatGPT nebo Google Gemini). AI vám vygeneruje seznam restaurací, které můžete navštívit a ušetřit."
+                            }
+                        ]
+                    }
+                }
+            },
+            sport: {
+                name: "Sport",
+                subcategories: {
+                    "cviceni-a-trenink": {
+                        name: "Cvičení a trénink",
+                        examples: [
+                            {
+                                title: "Tréninkový plán pro začátečníky",
+                                situation: "Chci začít cvičit doma, ale nevím, jak na to. Potřebuji jednoduchý tréninkový plán pro začátečníky.",
+                                prompt_cz: "Vytvoř 4týdenní tréninkový plán pro úplného začátečníka, který chce cvičit doma bez náčiní. Plán by měl obsahovat 3 tréninky týdně, každý cca 30 minut, zaměřené na celé tělo. Zahrň rozcvičku, hlavní část a protažení.",
+                                prompt_en: "Create a 4-week workout plan for a complete beginner who wants to exercise at home without equipment. The plan should include 3 workouts per week, each about 30 minutes, focused on full body. Include warm-up, main workout, and cool-down.",
+                                usage: "Zkopírujte anglický prompt a vložte jej do AI nástroje. AI vám vygeneruje přizpůsobený tréninkový plán."
+                            }
+                        ]
+                    }
+                }
+            },
+            nakupovani: {
+                name: "Nakupování",
+                subcategories: {
+                    "recenze-a-srovnani": {
+                        name: "Recenze a srovnání",
+                        examples: [
+                            {
+                                title: "Srovnání mobilních telefonů",
+                                situation: "Chci si koupit nový smartphone do 10 000 Kč, ale nevím, který vybrat. Potřebuji srovnání možností.",
+                                prompt_cz: "Porovnej 3 nejlepší chytré telefony v cenové kategorii do 10 000 Kč. U každého uveď klíčové specifikace (procesor, RAM, úložiště, fotoaparát, baterie), výhody, nevýhody a doporučení pro různé typy uživatelů (fotografové, hráči, běžní uživatelé).",
+                                prompt_en: "Compare the 3 best smartphones in the price category up to 10,000 CZK. For each, list key specifications (processor, RAM, storage, camera, battery), advantages, disadvantages, and recommendations for different user types (photographers, gamers, regular users).",
+                                usage: "Zkopírujte anglický prompt a vložte jej do AI nástroje. AI vám poskytne detailní srovnání telefonů, které vám pomůže s výběrem."
+                            }
+                        ]
+                    }
+                }
+            }
+        };
+
+        // DOM Elements
+        const categoriesSection = document.getElementById('categories');
+        const subcategoriesSection = document.getElementById('subcategories');
+        const examplesSection = document.getElementById('examples');
+        const subcategoriesGrid = document.getElementById('subcategories-grid');
+        const examplesGrid = document.getElementById('examples-grid');
+        const subcategoriesTitle = document.getElementById('subcategories-title');
+        const examplesTitle = document.getElementById('examples-title');
+        const backToCategoriesBtn = document.getElementById('back-to-categories');
+        const backToSubcategoriesBtn = document.getElementById('back-to-subcategories');
+        const notification = document.getElementById('notification');
+        const navMenu = document.getElementById('nav-menu');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+
+        // Create particles for background
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 20 and 100px
+                const size = Math.random() * 80 + 20;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Show categories
+        function showCategories() {
+            categoriesSection.style.display = 'block';
+            subcategoriesSection.style.display = 'none';
+            examplesSection.style.display = 'none';
+        }
+
+        // Show subcategories for a category
+        function showSubcategories(categoryId) {
+            const category = data[categoryId];
+            subcategoriesTitle.textContent = `Podkategorie - ${category.name}`;
+            
+            // Clear previous subcategories
+            subcategoriesGrid.innerHTML = '';
+            
+            // Add subcategories
+            for (const [subId, subcategory] of Object.entries(category.subcategories)) {
+                const subcategoryCard = document.createElement('div');
+                subcategoryCard.classList.add('subcategory-card');
+                subcategoryCard.dataset.subcategory = subId;
+                subcategoryCard.dataset.category = categoryId;
+                
+                subcategoryCard.innerHTML = `
+                    <div class="subcategory-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="subcategory-content">
+                        <h3>${subcategory.name}</h3>
+                        <p>${subcategory.examples.length} příkladů promptů</p>
+                    </div>
+                `;
+                
+                subcategoryCard.addEventListener('click', () => {
+                    showExamples(categoryId, subId);
+                });
+                
+                subcategoriesGrid.appendChild(subcategoryCard);
+            }
+            
+            categoriesSection.style.display = 'none';
+            subcategoriesSection.style.display = 'block';
+            examplesSection.style.display = 'none';
+        }
+
+        // Show examples for a subcategory
+        function showExamples(categoryId, subcategoryId) {
+            const category = data[categoryId];
+            const subcategory = category.subcategories[subcategoryId];
+            examplesTitle.textContent = `Příklady - ${subcategory.name}`;
+            
+            // Clear previous examples
+            examplesGrid.innerHTML = '';
+            
+            // Add examples
+            subcategory.examples.forEach(example => {
+                const exampleCard = document.createElement('div');
+                exampleCard.classList.add('example-card');
+                
+                exampleCard.innerHTML = `
+                    <div class="example-header">
+                        <h3>${example.title}</h3>
+                    </div>
+                    <div class="example-content">
+                        <div class="example-section">
+                            <h4><i class="fas fa-question-circle"></i> Situace</h4>
+                            <p>${example.situation}</p>
+                        </div>
+                        <div class="example-section">
+                            <h4><i class="fas fa-keyboard"></i> Prompt (Česky)</h4>
+                            <div class="prompt-container">
+                                <p>${example.prompt_cz}</p>
+                                <button class="copy-btn" data-prompt="${example.prompt_cz}">Kopírovat</button>
+                            </div>
+                        </div>
+                        <div class="example-section">
+                            <h4><i class="fas fa-keyboard"></i> Prompt (English)</h4>
+                            <div class="prompt-container">
+                                <p>${example.prompt_en}</p>
+                                <button class="copy-btn" data-prompt="${example.prompt_en}">Kopírovat</button>
+                            </div>
+                        </div>
+                        <div class="example-section">
+                            <h4><i class="fas fa-info-circle"></i> Využití</h4>
+                            <p>${example.usage}</p>
+                        </div>
+                    </div>
+                `;
+                
+                examplesGrid.appendChild(exampleCard);
+            });
+            
+            // Add event listeners to copy buttons
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const prompt = e.target.dataset.prompt;
+                    copyToClipboard(prompt);
+                    showNotification();
+                });
+            });
+            
+            categoriesSection.style.display = 'none';
+            subcategoriesSection.style.display = 'none';
+            examplesSection.style.display = 'block';
+        }
+
+        // Copy text to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                console.log('Text copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            });
+        }
+
+        // Show notification
+        function showNotification() {
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Add event listeners to category cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {                    const categoryId = card.dataset.category;
+                    showSubcategories(categoryId);
+                });
+            });
+            
+            // Back button event listeners
+            backToCategoriesBtn.addEventListener('click', showCategories);
+            backToSubcategoriesBtn.addEventListener('click', () => {
+                const currentCategory = document.querySelector('.subcategory-card')?.dataset.category;
+                if (currentCategory) {
+                    showSubcategories(currentCategory);
+                }
+            });
+            
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('show');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('show');
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.querySelector('.search-bar input');
+            const searchButton = document.querySelector('.search-bar button');
+            
+            function performSearch() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                if (searchTerm === '') return;
+                
+                // Search through all examples
+                let foundExamples = [];
+                
+                for (const [categoryId, category] of Object.entries(data)) {
+                    for (const [subcategoryId, subcategory] of Object.entries(category.subcategories)) {
+                        for (const example of subcategory.examples) {
+                            if (
+                                example.title.toLowerCase().includes(searchTerm) ||
+                                example.situation.toLowerCase().includes(searchTerm) ||
+                                example.prompt_cz.toLowerCase().includes(searchTerm) ||
+                                example.prompt_en.toLowerCase().includes(searchTerm)
+                            ) {
+                                foundExamples.push({
+                                    categoryId,
+                                    categoryName: category.name,
+                                    subcategoryId,
+                                    subcategoryName: subcategory.name,
+                                    example
+                                });
+                            }
+                        }
+                    }
+                }
+                
+                // Display search results
+                if (foundExamples.length > 0) {
+                    examplesTitle.textContent = `Výsledky hledání: "${searchTerm}"`;
+                    examplesGrid.innerHTML = '';
+                    
+                    foundExamples.forEach(result => {
+                        const exampleCard = document.createElement('div');
+                        exampleCard.classList.add('example-card');
+                        
+                        exampleCard.innerHTML = `
+                            <div class="example-header">
+                                <h3>${result.example.title}</h3>
+                                <p><small>${result.categoryName} → ${result.subcategoryName}</small></p>
+                            </div>
+                            <div class="example-content">
+                                <div class="example-section">
+                                    <h4><i class="fas fa-question-circle"></i> Situace</h4>
+                                    <p>${result.example.situation}</p>
+                                </div>
+                                <div class="example-section">
+                                    <h4><i class="fas fa-keyboard"></i> Prompt (Česky)</h4>
+                                    <div class="prompt-container">
+                                        <p>${result.example.prompt_cz}</p>
+                                        <button class="copy-btn" data-prompt="${result.example.prompt_cz}">Kopírovat</button>
+                                    </div>
+                                </div>
+                                <div class="example-section">
+                                    <h4><i class="fas fa-keyboard"></i> Prompt (English)</h4>
+                                    <div class="prompt-container">
+                                        <p>${result.example.prompt_en}</p>
+                                        <button class="copy-btn" data-prompt="${result.example.prompt_en}">Kopírovat</button>
+                                    </div>
+                                </div>
+                                <div class="example-section">
+                                    <h4><i class="fas fa-info-circle"></i> Využití</h4>
+                                    <p>${result.example.usage}</p>
+                                </div>
+                            </div>
+                        `;
+                        
+                        examplesGrid.appendChild(exampleCard);
+                    });
+                    
+                    // Add event listeners to copy buttons
+                    document.querySelectorAll('.copy-btn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const prompt = e.target.dataset.prompt;
+                            copyToClipboard(prompt);
+                            showNotification();
+                        });
+                    });
+                    
+                    categoriesSection.style.display = 'none';
+                    subcategoriesSection.style.display = 'none';
+                    examplesSection.style.display = 'block';
+                } else {
+                    // No results found
+                    examplesTitle.textContent = `Žádné výsledky pro: "${searchTerm}"`;
+                    examplesGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; padding: 2rem;">Bohužel jsme nenašli žádné prompty odpovídající vašemu hledání. Zkuste upravit hledaný výraz.</p>';
+                    
+                    categoriesSection.style.display = 'none';
+                    subcategoriesSection.style.display = 'none';
+                    examplesSection.style.display = 'block';
+                }
+            }
+            
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Navigation menu category clicks
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const linkText = link.textContent.toLowerCase();
+                    
+                    // Map navigation text to category IDs
+                    const navToCategoryMap = {
+                        'domov': 'domov',
+                        'práce': 'prace', 
+                        'škola': 'skola',
+                        'dovolená': 'dovolena',
+                        'sport': 'sport',
+                        'nakupování': 'nakupovani'
+                    };
+                    
+                    if (navToCategoryMap[linkText]) {
+                        showSubcategories(navToCategoryMap[linkText]);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
